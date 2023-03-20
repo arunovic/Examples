@@ -1,0 +1,65 @@
+<mat-toolbar>
+    <h1>{{ isNewProduct ? 'Add New Product' : 'Edit Product' }}</h1>
+    <span class="example-spacer"></span>
+    <button mat-button color="primary" routerLink="/products">Back</button>
+</mat-toolbar>
+
+<div *ngIf="productForm" class="container">
+   
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+      <mat-form-field appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" required />
+        <mat-error *ngIf="productForm.get('title')?.hasError('required')">
+          Title is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" required></textarea>
+        <mat-error *ngIf="productForm.get('description')?.hasError('required')">
+          Description is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput formControlName="price" type="number" required />
+        <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+          Price is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Rating</mat-label>
+        <input
+          matInput
+          formControlName="rating"
+          type="number"
+          min="1"
+          max="10"
+          required
+        />
+        <mat-error *ngIf="productForm.get('rating')?.hasError('required')">
+          Rating is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category" required>
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="productForm.controls['category'].hasError('required')">
+          Category is required
+        </mat-error>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" [disabled]="productForm.invalid">
+        {{ isNewProduct ? 'Add Product' : 'Save Changes' }}
+      </button>
+    </form>
+  </div>

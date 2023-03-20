@@ -1,0 +1,37 @@
+<mat-toolbar>
+    <span>Product List</span>
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="primary" routerLink="/products/new">Add New Product</button>
+</mat-toolbar>
+<mat-divider></mat-divider>
+<div class="products-grid">
+    <ng-container *ngFor="let product of products">
+        <mat-card class="product-card">
+            <mat-card-header>
+                <!-- <div mat-card-avatar class="product-card-header-image"></div> -->
+                <mat-card-title>{{ product.title }}</mat-card-title>
+                <mat-card-subtitle>Price: <strong>{{ product.price }}</strong></mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="{{product.thumbnail}}" alt="Photo of a Shiba Inu">
+            <mat-card-content>
+                <table class="details-table">
+                    <tr>
+                        <td>Price</td>
+                        <td align="right">{{ product.price }}</td>
+                    </tr>
+                    <tr>
+                        <td>Rating</td>
+                        <td align="right">{{ product.rating }}</td>
+                    </tr>
+                    <tr>
+                        <td>Category</td>
+                        <td align="right">{{ product.category }}</td>
+                    </tr>
+                </table>
+            </mat-card-content>
+            <mat-card-actions>
+                <button class="action-button" mat-button [routerLink]="['/products/edit', product.id]">Edit</button>
+            </mat-card-actions>
+        </mat-card>
+    </ng-container>
+</div>
