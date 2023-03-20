@@ -12,7 +12,7 @@
                 <mat-card-title>{{ product.title }}</mat-card-title>
                 <mat-card-subtitle>Price: <strong>{{ product.price }}</strong></mat-card-subtitle>
             </mat-card-header>
-            <img mat-card-image src="{{product.thumbnail}}" alt="Photo of a Shiba Inu">
+            <div class="product-image" style="background-image: url({{product.thumbnail}});"></div>
             <mat-card-content>
                 <table class="details-table">
                     <tr>

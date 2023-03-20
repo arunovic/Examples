@@ -11,6 +11,14 @@
     flex-wrap: wrap;
 }
 
+.product-image {
+    height: 200px;
+    background-position: left  top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 15px;
+}
+
 .details-table {
     width: 100%;
     margin: 10px 0;
