@@ -9,6 +9,7 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class ProductListComponent implements OnInit {
   products: ProductDto[] = [];
+  loading: boolean = true;
 
   constructor(private productsService: ProductsService) { }
 
@@ -18,7 +19,8 @@ export class ProductListComponent implements OnInit {
         console.log(res)
         this.products = res.products
       },
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
+      complete: () => this.loading = false
     });
   }
 }

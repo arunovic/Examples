@@ -2,6 +2,9 @@
     width: 300px;
     margin: 0 auto;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
 }

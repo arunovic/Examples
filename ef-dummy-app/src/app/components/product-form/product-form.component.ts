@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDto } from 'src/app/models/product-dto';
 import { ProductsService } from 'src/app/services/products.service';
+import { NotificationDialogComponent } from '../dialogs/notification-dialog/notification-dialog.component';
 
 @Component({
   selector: 'app-product-form',
@@ -16,12 +18,14 @@ export class ProductFormComponent implements OnInit {
   product: ProductDto | undefined;
   productId: string | null = null;
   isNewProduct: boolean = true;
+  loading: boolean = true;
 
   constructor(
     private fb: FormBuilder,
     private productsService: ProductsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {
     this.productForm = this.fb.group({
       title: ['', Validators.required],
@@ -34,15 +38,16 @@ export class ProductFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
-    
+
     this.route.paramMap.subscribe((params) => {
       if (params.has('id')) {
         this.isNewProduct = false;
         this.productId = params.get('id');
 
-        if(this.productId) this.getProductById(this.productId);
+        if (this.productId) this.getProductById(this.productId);
       } else {
         this.isNewProduct = true;
+        this.loading = false;
       }
     });
   }
@@ -64,34 +69,46 @@ export class ProductFormComponent implements OnInit {
         this.product = res;
         this.productForm.patchValue(res);
       },
-      error: (err) => console.error(err)
+      error: (err) => console.error(err),
+      complete: () => this.loading = false
     });
   }
 
   onSubmit(): void {
     if (!this.productForm.valid) return;
     let product: ProductDto = this.productForm.value;
-
+    this.loading = true;
     if (this.isNewProduct) {
       this.productsService.createProduct(product).subscribe({
         next: (res) => {
           console.log(res)
-          alert('Product created successfully!');          
-          //this.router.navigate(['/products']);
+          this.openNotificationDialog('Product created successfully!');
         },
-        error: (err) => console.error(err)
+        error: (err) => console.error(err),
+        complete: () => this.loading = false
       });
     } else {
       if (!this.productId) return;
-      
+
       this.productsService.updateProduct(this.productId, product).subscribe({
         next: (res) => {
           console.log(res)
-          alert('Product updated successfully!');          
-          //this.router.navigate(['/products']);
+          this.openNotificationDialog('Product updated successfully!');
         },
-        error: (err) => console.error(err)
+        error: (err) => console.error(err),
+        complete: () => this.loading = false
       });
     }
+  }
+
+  openNotificationDialog(data: string): void {
+    const dialogRef = this.dialog.open(NotificationDialogComponent, {
+      data: data,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.router.navigate(['/products']);
+    });
   }
 }

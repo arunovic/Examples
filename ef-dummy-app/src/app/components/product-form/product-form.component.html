@@ -3,7 +3,7 @@
     <span class="example-spacer"></span>
     <button mat-button color="primary" routerLink="/products">Back</button>
 </mat-toolbar>
-
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 <div *ngIf="productForm" class="container">
    
     <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
@@ -58,7 +58,7 @@
         </mat-error>
       </mat-form-field>
   
-      <button mat-raised-button color="primary" [disabled]="productForm.invalid">
+      <button mat-raised-button color="primary" [disabled]="productForm.invalid || loading">
         {{ isNewProduct ? 'Add Product' : 'Save Changes' }}
       </button>
     </form>

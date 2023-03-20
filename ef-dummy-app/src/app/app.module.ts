@@ -14,13 +14,15 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './auth.guard';
 import { TokenInterceptor } from './helpers/token.interceptor';
 import { ProductFormComponent } from './components/product-form/product-form.component';
+import { NotificationDialogComponent } from './components/dialogs/notification-dialog/notification-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
     LoginComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    NotificationDialogComponent
   ],
   imports: [
     BrowserModule,

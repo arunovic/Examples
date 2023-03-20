@@ -3,7 +3,7 @@
     <span class="example-spacer"></span>
     <button mat-raised-button color="primary" routerLink="/products/new">Add New Product</button>
 </mat-toolbar>
-<mat-divider></mat-divider>
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
 <div class="products-grid">
     <ng-container *ngFor="let product of products">
         <mat-card class="product-card">
